@@ -1,71 +1,50 @@
-/*
-Raylib example file.
-This is an example main file for a simple raylib project.
-Use this as a starting point or replace it with your code.
+#include <raylib.h>
+#include "simulation.h"
+#include <stdio.h>
 
-For a C++ project simply rename the file to .cpp and re-run the build script 
+#define G 6.674e-11	// Constante de gravité universelle
+#define T 1			// Unité de temps
 
--- Copyright (c) 2020-2024 Jeffery Myers
---
---This software is provided "as-is", without any express or implied warranty. In no event 
---will the authors be held liable for any damages arising from the use of this software.
+int main() {
 
---Permission is granted to anyone to use this software for any purpose, including commercial 
---applications, and to alter it and redistribute it freely, subject to the following restrictions:
+    // Initialisation les planètes 
+	printf("Saisir le nombre de planète : ");
+	int nbr_planets = 0;
+	scanf("%d", &nbr_planets);
+    PlanetsList* Galaxy = init_planet(nbr_planets);
 
---  1. The origin of this software must not be misrepresented; you must not claim that you 
---  wrote the original software. If you use this software in a product, an acknowledgment 
---  in the product documentation would be appreciated but is not required.
---
---  2. Altered source versions must be plainly marked as such, and must not be misrepresented
---  as being the original software.
---
---  3. This notice may not be removed or altered from any source distribution.
+	// Initialisation le nombre d'itération
+	printf("Saisir le nombre d'itérations à calculer : ");
+	int nbr_iteration = 0;
+	scanf("%d", &nbr_iteration);
 
-*/
+    // Boucle principale de simulation
+    for (int i = 0; i != nbr_iteration; i++) {
 
-#include "raylib.h"
+        // Calcul des nouvelles forces et mise à jour des coordonnées
+		PlanetsList* Current = Galaxy;
+        while (Current) {
+            PlanetsList* GalaxyReader = Galaxy;
+            while (GalaxyReader) {
+                if (Current != GalaxyReader) {
+                    calc_force(&Current->p, &GalaxyReader->p, G);
+                }
+                GalaxyReader = GalaxyReader->next;
+            }
+            update_coor(&Current->p, T);
+            Current = Current->next;
+        }
 
-#include "resource_dir.h"	// utility header for SearchAndSetResourceDir
+        // Affichage et réinitialisation de l'accélération pour chaque point
+        PlanetsList* Reader = Galaxy;
+        while (Reader) {
+            print_planet_coor(Reader->p);
+            Reader = Reader->next;
+        }
 
-int main ()
-{
-	// Tell the window to use vsync and work on high DPI displays
-	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+    }
 
-	// Create the window and OpenGL context
-	InitWindow(1280, 800, "Hello Clément");
-
-	// Utility function from resource_dir.h to find the resources folder and set it as the current working directory so we can load from it
-	SearchAndSetResourceDir("resources");
-
-	// Load a texture from the resources directory
-	Texture wabbit = LoadTexture("wabbit_alpha.png");
-	
-	// game loop
-	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
-	{
-		// drawing
-		BeginDrawing();
-
-		// Setup the back buffer for drawing (clear color and depth buffers)
-		ClearBackground(BLACK);
-
-		// draw some text using the default font
-		DrawText("Hello Raylib", 200,200,20,WHITE);
-
-		// draw our texture to the screen
-		DrawTexture(wabbit, 400, 200, WHITE);
-		
-		// end the frame and get ready for the next one  (display frame, poll input, etc...)
-		EndDrawing();
-	}
-
-	// cleanup
-	// unload our texture so it can be cleaned up
-	UnloadTexture(wabbit);
-
-	// destroy the window and cleanup the OpenGL context
-	CloseWindow();
-	return 0;
+    free_planets(Galaxy);
+    return 0;
 }
+
