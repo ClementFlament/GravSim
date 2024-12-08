@@ -69,9 +69,9 @@ Planet create_planet(int i)
 
     Planet planet = {
         .id = i,
-        .x = rand() % 1000,
-        .y = rand() % 1000,
-        .z = rand() % 1000,
+        .x = (rand() % 2000) - 1000,
+        .y = (rand() % 2000) - 1000,
+        .z = (rand() % 2000) - 1000,
         .mass = (rand() % 1000) * 1e8,
     };
     print_planet_coor(planet);
