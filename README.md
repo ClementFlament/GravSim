@@ -25,27 +25,6 @@ This project simulates the gravitational interactions between planets in a 3D sp
 - Raylib library for graphics rendering (can be installed via package managers or built from source).
 - Pthread library (usually included in most Unix-like systems).
 
-## Installation and Setup
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/3d-gravitational-simulation.git
-   cd 3d-gravitational-simulation
-   ```
-
-2. **Install dependencies**:
-   - For Raylib: Follow the installation instructions on the [Raylib website](https://www.raylib.com/).
-   - For Pthread: Typically, no installation is required on Linux or macOS as it's included by default.
-
-3. **Build the project**:
-   ```bash
-   make
-   ```
-
-4. **Run the simulation**:
-   ```bash
-   ./gravitational_simulation
-   ```
-
 ## Usage
 Upon running the simulation, the user will be prompted to:
 - Create a central star (optional).
