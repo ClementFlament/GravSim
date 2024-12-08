@@ -67,8 +67,11 @@ int main() {
             DrawSphere(
                 (Vector3){ Reader->p.x * SCALE, Reader->p.y * SCALE, Reader->p.z * SCALE },
                 radius, color);
-
-
+                
+            // Réinitialisation de l'accélération
+            Reader->p.ax = 0;
+            Reader->p.ay = 0;
+            Reader->p.az = 0;
             Reader = Reader->next;
         }
 
