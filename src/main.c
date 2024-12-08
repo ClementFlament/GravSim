@@ -7,11 +7,16 @@
 
 int main() {
 
+    // Création d'un soleil 
+    int create_star;
+	printf("Voulez vous créer un soleil ? 1 pour oui / 0 pour non");
+    scanf("%d", &create_star);
+
     // Initialisation les planètes 
 	printf("Saisir le nombre de planète : ");
 	int nbr_planets = 0;
 	scanf("%d", &nbr_planets);
-    PlanetsList* Galaxy = init_planet(nbr_planets);
+    PlanetsList* Galaxy = init_planet(nbr_planets, create_star);
 
 	// Initialisation le nombre d'itération
 	printf("Saisir le nombre d'itérations à calculer : ");

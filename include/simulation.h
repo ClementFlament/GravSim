@@ -18,7 +18,7 @@ void calc_force(Planet *p1, Planet *p2, double G); // Calcule l'accélération
 void update_coor(Planet *p, int T); // Dérive l'accélération en vitesse puis mets à jour les positions
 void print_planet_coor(Planet p); // Affiche le nom de la planète et ses coordonées
 Planet create_planet(); // Fonction qui retourne un objet de type Planet
-PlanetsList* init_planet(); // Initialise la création des planètes
+PlanetsList* init_planet(int nbr_planet, int create_star); // Initialise la création des planètes
 void free_planets(PlanetsList* element);
 
 #endif // SIMULATION_H
