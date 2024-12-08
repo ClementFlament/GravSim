@@ -1,6 +1,8 @@
-#include <raylib.h>
 #include "simulation.h"
+#include "graphic.h"
 #include <stdio.h>
+#include <raylib.h>
+
 
 #define SCREEN_WIDTH 1280    // Largeur de la fenêtre
 #define SCREEN_HEIGHT 720    // Hauteur de la fenêtre
@@ -10,19 +12,23 @@
 #define T 1                  // Unité de temps
 
 int main() {
-    // Création d'un soleil
-    int create_star;
-    printf("Voulez-vous créer un soleil ? (1 pour oui / 0 pour non): ");
-    scanf("%d", &create_star);
-
-    // Initialisation des planètes
-    printf("Saisir le nombre de planètes : ");
+    int create_star = 0;
     int nbr_planets = 0;
-    scanf("%d", &nbr_planets);
-    PlanetsList* Galaxy = init_planet(nbr_planets, create_star);
+
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Configuration de la simulation");
+
+
+    // Demande aux utilisateurs des informations concernant la simulation dans une fenêtre graphique et créer la liste de planètes
+    create_star = ask_user("Voulez-vous créer un soleil ? (1 pour oui / 0 pour non): ");
+    nbr_planets = ask_user("Saisir le nombre de planètes: ");
+    PlanetsList *Galaxy = init_planet(nbr_planets, create_star);
+
+    CloseWindow();
+
+
 
     // Initialisation de Raylib
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "3D Simulation Gravitationnelle");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "3D - GravSim");
 
     // Caméra pour la visualisation 3D
     Camera camera = { 0 };
@@ -67,7 +73,7 @@ int main() {
             DrawSphere(
                 (Vector3){ Reader->p.x * SCALE, Reader->p.y * SCALE, Reader->p.z * SCALE },
                 radius, color);
-                
+
             // Réinitialisation de l'accélération
             Reader->p.ax = 0;
             Reader->p.ay = 0;
