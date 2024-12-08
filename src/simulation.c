@@ -94,7 +94,8 @@ PlanetsList *init_planet(int nbr_planets, int create_star)
 
     for (int i = 0; i < nbr_planets; i++)
     {
-        if(i == 0 && create_star == 1){
+        if (i == 0 && create_star == 1)
+        {
             Planet Star = {
                 .id = i,
                 .x = 0,
@@ -104,10 +105,11 @@ PlanetsList *init_planet(int nbr_planets, int create_star)
             };
             planetN->p = Star;
             print_planet_coor(planetN->p);
-        } 
-        else{
+        }
+        else
+        {
             planetN->p = create_planet(i);
-        } 
+        }
 
         if (i < nbr_planets - 1)
         {
@@ -140,25 +142,30 @@ void free_planets(PlanetsList *element)
 }
 
 // Fonction qui sera exécutée par chaque thread pour calculer les forces
-void* calc_gravitational_forces(void* arg) {
-    ThreadData* data = (ThreadData*)arg;
-    PlanetsList* current = data->galaxy;
-    for (int i = 0; i < data->start_id; i++) {
+void *calc_gravitational_forces(void *arg)
+{
+    ThreadData *data = (ThreadData *)arg;
+    PlanetsList *current = data->galaxy;
+    for (int i = 0; i < data->start_id; i++)
+    {
         current = current->next; // Avancer jusqu'à la planète de départ
     }
 
     // Calcul des forces pour les planètes dans la plage spécifiée
-    for (int i = data->start_id; i < data->end_id; i++) {
-        PlanetsList* galaxyReader = data->galaxy;
-        while (galaxyReader) {
-            if (current != galaxyReader) {
+    for (int i = data->start_id; i < data->end_id; i++)
+    {
+        PlanetsList *galaxyReader = data->galaxy;
+        while (galaxyReader)
+        {
+            if (current != galaxyReader)
+            {
                 calc_force(&current->p, &galaxyReader->p, data->G);
             }
             galaxyReader = galaxyReader->next;
         }
         // Mise à jour des coordonnées de la planète
         update_coor(&current->p, data->T);
-        current = current->next;  // Passer à la prochaine planète
+        current = current->next; // Passer à la prochaine planète
     }
 
     return NULL;
