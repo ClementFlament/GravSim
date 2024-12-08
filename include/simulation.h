@@ -3,9 +3,9 @@
 
 typedef struct {
     int id;   // Nom de la planète
-    double x, y;     // Position
-    double vx, vy;   // Vitesse
-    double ax, ay;   // Acceleration
+    double x, y, z;     // Position
+    double vx, vy, vz;   // Vitesse
+    double ax, ay, az;   // Acceleration
     double mass;     // Masse
 } Planet;
 

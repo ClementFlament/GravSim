@@ -14,14 +14,18 @@
 void calc_force(Planet *p1, Planet *p2, double G) {
     double dx = p2->x - p1->x;
     double dy = p2->y - p1->y;
-    double distance = sqrt(dx * dx + dy * dy);
+    double dz = p2->z - p1->z;
+    double distance = sqrt((dx * dx) + (dy * dy) + (dz * dz));
     if (distance > 1e-5) {
         double force = (G * p1->mass * p2->mass) / (distance * distance);
 
         p1->ax += force * dx / distance / p1->mass;
         p1->ay += force * dy / distance / p1->mass;
+        p1->az += force * dz / distance / p1->mass;
+
         p2->ax -= force * dx / distance / p2->mass;
         p2->ay -= force * dy / distance / p2->mass;
+        p2->az -= force * dz / distance / p2->mass;
     }
 }
 
@@ -36,18 +40,18 @@ void update_coor(Planet *p, int T) {
 
     p->vx += p->ax * T;
     p->vy += p->ay * T;
+    p->vz += p->az * T;
 
     p->x += p->vx * T;
     p->y += p->vy * T;
+    p->z += p->vz * T;
 
-    p->ax = 0;
-    p->ay = 0;
 }
 
 // Print quelques informations dans le terminal
 void print_planet_coor(Planet p) {
-    printf("Planet ID : %d \nX : %f\nY : %f\nVX : %f\nVY : %f\n\n",
-           p.id, p.x, p.y, p.vx, p.vy);
+    printf("Planet ID : %d \nX : %f\nY : %f\nZ : %f\nVX : %f\nVY : %f\nVZ : %f\n\n",
+           p.id, p.x, p.y, p.z, p.vx, p.vy, p.vz);
 }
 
 // Fonction de création aléatoire de planètes
@@ -63,6 +67,7 @@ Planet create_planet(int i) {
         .id = i,
         .x = rand() % 1000,
         .y = rand() % 1000,
+        .z = rand() % 1000,
         .mass = (rand() % 1000) * 1e8,
     };
     print_planet_coor(planet);
