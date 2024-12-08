@@ -8,8 +8,10 @@ This project simulates the gravitational interactions between planets in a 3D sp
 - Stars implementation.
 - Modular code structure for better maintainability.
 - Display prompt and outputs in GUI.
+- Threads to parallel the calculation and reduce the time of processing.
 
 ## Technologies Used
 - C Programming Language: Core logic implementation.
 - Standard Libraries: stdio.h, stdlib.h, math.h, time.h.
 - Raylib : GUI and graphical representation.
+- Pthread : Parallel calculations.
