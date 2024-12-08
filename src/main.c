@@ -15,8 +15,8 @@ int main() {
     int create_star = 0;
     int nbr_planets = 0;
 
+    // === Configuration de la simulation ===
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Configuration de la simulation");
-
 
     // Demande aux utilisateurs des informations concernant la simulation dans une fenêtre graphique et créer la liste de planètes
     create_star = ask_user("Voulez-vous créer un soleil ? (1 pour oui / 0 pour non): ");
@@ -24,10 +24,10 @@ int main() {
     PlanetsList *Galaxy = init_planet(nbr_planets, create_star);
 
     CloseWindow();
+    // === Fin de la configuration de la simulation ===
 
 
-
-    // Initialisation de Raylib
+    // === Initialisation de la simulation ===
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "3D - GravSim");
 
     // Caméra pour la visualisation 3D
@@ -90,8 +90,9 @@ int main() {
 
         EndDrawing();
     }
+    // === Fin de la simulation ===
 
-    // Libération des ressources
+    // Libération des ressources mémoires et de Raylib
     free_planets(Galaxy);
     CloseWindow();
 
