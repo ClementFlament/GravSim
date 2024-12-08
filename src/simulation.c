@@ -53,8 +53,8 @@ void update_coor(Planet *p, int T)
 // Print quelques informations dans le terminal
 void print_planet_coor(Planet p)
 {
-    printf("Planet ID : %d \nX : %f\nY : %f\nZ : %f\nVX : %f\nVY : %f\nVZ : %f\n\n",
-           p.id, p.x, p.y, p.z, p.vx, p.vy, p.vz);
+    printf("Planet ID : %d \nX : %f\nY : %f\nZ : %f\nVX : %f\nVY : %f\nVZ : %f\nMass : %f\n\n",
+           p.id, p.x, p.y, p.z, p.vx, p.vy, p.vz, p.mass);
 }
 
 // Fonction de création aléatoire de planètes

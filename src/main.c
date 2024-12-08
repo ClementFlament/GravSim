@@ -9,7 +9,7 @@ int main() {
 
     // Création d'un soleil 
     int create_star;
-	printf("Voulez vous créer un soleil ? 1 pour oui / 0 pour non");
+	printf("Voulez vous créer un soleil ? (1 pour oui / 0 pour non)\n");
     scanf("%d", &create_star);
 
     // Initialisation les planètes 
