@@ -2,14 +2,16 @@
 #include "graphic.h"
 #include <stdio.h>
 #include <raylib.h>
-
+#include <pthread.h>
 
 #define SCREEN_WIDTH 1280    // Largeur de la fenêtre
 #define SCREEN_HEIGHT 720    // Hauteur de la fenêtre
 #define SCALE 0.01          // Facteur d'échelle pour ajuster la taille de l'affichage
+#define nbr_thread 12       // Nombre de threads à utiliser
 
-#define G 6.674e-11          // Constante de gravité universelle
-#define T 1                  // Unité de temps
+#define  GRAVITY_CONSTANT 6.674e-11          // Constante de gravité universelle
+#define  TIME_UNIT 1                  // Unité de temps
+
 
 int main() {
     int create_star = 0;
@@ -40,21 +42,40 @@ int main() {
 
     SetTargetFPS(60);
 
+    // Initialiser les threads
+    pthread_t threads[nbr_thread];     // Tableau pour stocker les threads
+    ThreadData data[nbr_thread];       // Tableau pour stocker les données de chaque thread
+
+    int planets_per_thread = nbr_planets / nbr_thread;  // Nombre de planètes par thread
+    int remaining_planets = nbr_planets % nbr_thread;   // Planètes restantes
+
     // Boucle principale 
     while (!WindowShouldClose()) { // Exécution infinie jusqu'à fermeture de la fenêtre
+        PlanetsList* current = Galaxy;
+        int index = 0;
 
-        // Calcul des forces et mise à jour des coordonnées
-        PlanetsList* Current = Galaxy;
-        while (Current) {
-            PlanetsList* GalaxyReader = Galaxy;
-            while (GalaxyReader) {
-                if (Current != GalaxyReader) {
-                    calc_force(&Current->p, &GalaxyReader->p, G);
-                }
-                GalaxyReader = GalaxyReader->next;
+        // Distribution des planètes entre les threads
+        for (int i = 0; i < nbr_thread; i++) {
+            data[i].galaxy = Galaxy;
+            data[i].start_id = index;
+            data[i].end_id = index + planets_per_thread;
+            if (i < remaining_planets) {
+                data[i].end_id++;  // Répartir les planètes restantes
             }
-            update_coor(&Current->p, T);
-            Current = Current->next;
+
+            data[i].G = GRAVITY_CONSTANT;  // Passe la constante de gravité à chaque thread
+            data[i].T = TIME_UNIT;  // Passe l'unité de temps à chaque thread
+
+            // Créer un thread pour traiter un groupe de planètes
+            pthread_create(&threads[i], NULL, calc_gravitational_forces, (void*)&data[i]);
+
+            // Avancer à la prochaine plage de planètes
+            index = data[i].end_id;
+        }
+
+        // Attendre la fin de tous les threads
+        for (int i = 0; i < nbr_thread; i++) {
+            pthread_join(threads[i], NULL);
         }
 
         // Rendu graphique
@@ -85,7 +106,6 @@ int main() {
 
         // Affichage d'informations supplémentaires
         DrawText("3D - Simulateur de Gravité", 10, 10, 20, DARKGRAY);
-
         DrawFPS(SCREEN_WIDTH - 100, 10);
 
         EndDrawing();

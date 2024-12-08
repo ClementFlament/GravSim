@@ -138,3 +138,28 @@ void free_planets(PlanetsList *element)
         free(temp);
     }
 }
+
+// Fonction qui sera exécutée par chaque thread pour calculer les forces
+void* calc_gravitational_forces(void* arg) {
+    ThreadData* data = (ThreadData*)arg;
+    PlanetsList* current = data->galaxy;
+    for (int i = 0; i < data->start_id; i++) {
+        current = current->next; // Avancer jusqu'à la planète de départ
+    }
+
+    // Calcul des forces pour les planètes dans la plage spécifiée
+    for (int i = data->start_id; i < data->end_id; i++) {
+        PlanetsList* galaxyReader = data->galaxy;
+        while (galaxyReader) {
+            if (current != galaxyReader) {
+                calc_force(&current->p, &galaxyReader->p, data->G);
+            }
+            galaxyReader = galaxyReader->next;
+        }
+        // Mise à jour des coordonnées de la planète
+        update_coor(&current->p, data->T);
+        current = current->next;  // Passer à la prochaine planète
+    }
+
+    return NULL;
+}
