@@ -1,10 +1,11 @@
 # 2D Gravitational Simulation
-This project simulates the gravitational interactions between planets in a 2D space using Newton's Law of Universal Gravitation. It calculates forces, accelerations, and updates positions of planets iteratively over time.
+This project simulates the gravitational interactions between planets in a 3D space using Newton's Law of Universal Gravitation. It calculates forces, accelerations, and updates positions of planets iteratively over time.
 
 ## Features
 - Simulate gravitational forces between multiple planets.
 - Real-time coordinate updates with adjustable iterations.
 - Randomized initial positions and masses for planets.
+- Stars implementation.
 - Modular code structure for better maintainability.
 - Display outputs in the terminal.
 
